@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'students/style.css' %}">
+    <title>Список студентов</title>
+</head>
+<body>
+    <h1>Список студентов</h1>
+    <ul>
+        {% for student in students %}
+            <li>
+                {{ student.name }} - {{ student.age }} лет, класс {{ student.grade }}, Школа: {{ student.school.name }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

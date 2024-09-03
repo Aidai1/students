@@ -1,18 +1,10 @@
-from django.contrib import admin
-from .models import Student, Course, Teacher, School
+from django.shortcuts import render
+from .models import Student, Course
 
-@admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'age', 'grade', 'school')
+def student_list(request):
+    students = Student.objects.select_related('school').all()
+    return render(request, 'students/student_list.html', {'students': students})
 
-@admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'teacher')
-
-@admin.register(Teacher)
-class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('name', 'subject', 'school')
-
-@admin.register(School)
-class SchoolAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address')
+def course_list(request):
+    courses = Course.objects.select_related('teacher__school').prefetch_related('students').all()
+    return render(request, 'students/course_list.html', {'courses': courses})
